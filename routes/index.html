@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamburger Proxy (real)</title>
+</head>
+<body bgcolor="694200">
+  <center>
+    <h1>Hamburger Proxy (real)</h1>
+    <script>
+      window.ws = new WebSocket("wss://hamburger-proxy.sussybaka751.repl.co/");ws.addEventListener("message", res => {res = res.data;res = JSON.parse(res);console.log(res);var win = window.open("", "_hamburger", "E");
+                                                                                                                      win.document.documentElement.innerHTML = res.data;
+var dp = new DOMParser();
+if(res.headers["content-type"] == "text/html") {
+  var doc = dp.parseFromString(res.data, "text/html");
+}
+                                                                                                                     });window.request = function(event) {event.preventDefault();var req = {};req.url = this.url.value;req = JSON.stringify(req);ws.send(req);return false;}
+    </script>
+    <h2>Press any button</h2>
+    
+    <form onsubmit="return request.call(this, event)">
+      <select name="method" value="GET">
+        <option value="GET">GET</option>
+        <option value="HEAD">HEAD</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+        <option value="CONNECT">CONNECT</option>
+        <option value="OPTIONS">OPTIONS</option>
+        <option value="TRACE">TRACE</option>
+        <option value="PATCH">PATCH</option>
+      </select>
+      <input name="url" placeholder="URL">
+      <textarea name="body" placeholder="Request Body"></textarea>
+      <hr>
+      <input type="submit" value="Create Instance">
+    </form>
+
+    
+  </center>  
+</body>
+</html>
